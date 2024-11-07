@@ -41,15 +41,22 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const numeroControle = urlParams.get('numeroControle');
-        const apiUrl = `https://script.google.com/macros/s/AKfycbz4yXaIyFyiJQhR-5w7sEcEGcg9jlH6m74cBa3CPQGxua0euXNxJPdnyJj4B8b6aeGS/exec?numeroControle=${numeroControle}`; // Substitua pela URL da sua API
+        console.log("Número de Controle:", numeroControle); // Log para verificar o número de controle
+        const apiUrl = `https://script.google.com/macros/s/AKfycbyl2VcKIGTu15onJ9DHdvfolYGjvFBV2uXPp_1hj_U/dev?numeroControle=${numeroControle}`; // Substitua pela URL da sua API
 
         fetch(apiUrl)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar dados');
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log("Dados recebidos:", data); // Log para verificar os dados recebidos
                 if(data.error) {
                     alert(data.error);
                 } else {
-                    document.getElementById('numeroControle').innerText = data.id;
+                    document.getElementById('numeroControle').innerText = data["Número de Controle"];
                     document.getElementById('descricao').innerText = data.Descrição;
                     document.getElementById('ano').innerText = data['Ano de Aquisição'];
                     document.getElementById('tipo').innerText = data['Tipo de Bem'];
@@ -60,4 +67,3 @@
     </script>
 </body>
 </html>
-
