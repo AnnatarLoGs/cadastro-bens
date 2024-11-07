@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações dos Bens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Informações dos Bens</h1>
+    <table id="dadosBens">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <!-- Adicione outros cabeçalhos aqui -->
+                <th>Detalhes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dados dos bens -->
+        </tbody>
+    </table>
+
+    <script>
+        const apiUrl = "https://script.google.com/macros/s/AKfycbz4yXaIyFyiJQhR-5w7sEcEGcg9jlH6m74cBa3CPQGxua0euXNxJPdnyJj4B8b6aeGS/exec"; // Substitua pela URL da sua API
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#dadosBens tbody');
+
+                data.forEach(item => {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${item.id}</td>
+                        <td>${item.Descrição}</td>
+                        <!-- Adicione outras colunas aqui -->
+                        <td><a href="detalhes.html?id=${item.id}">Ver Detalhes</a></td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar os dados:', error));
+    </script>
+</body>
+</html>

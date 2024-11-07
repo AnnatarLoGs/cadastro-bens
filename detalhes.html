@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Bem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .container h1 {
+            text-align: center;
+        }
+        .detail {
+            margin: 10px 0;
+        }
+        .detail strong {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalhes do Bem</h1>
+        <div class="detail"><strong>Número de Controle:</strong> <span id="numeroControle"></span></div>
+        <div class="detail"><strong>Descrição:</strong> <span id="descricao"></span></div>
+        <div class="detail"><strong>Ano de Aquisição:</strong> <span id="ano"></span></div>
+        <div class="detail"><strong>Tipo de Bem:</strong> <span id="tipo"></span></div>
+        <!-- Adicione outros detalhes aqui -->
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const numeroControle = urlParams.get('numeroControle');
+        const apiUrl = `https://script.google.com/macros/s/AKfycbz4yXaIyFyiJQhR-5w7sEcEGcg9jlH6m74cBa3CPQGxua0euXNxJPdnyJj4B8b6aeGS/exec?numeroControle=${numeroControle}`; // Substitua pela URL da sua API
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('numeroControle').innerText = data.id;
+                    document.getElementById('descricao').innerText = data.Descrição;
+                    document.getElementById('ano').innerText = data['Ano de Aquisição'];
+                    document.getElementById('tipo').innerText = data['Tipo de Bem'];
+                    // Adicione outros detalhes aqui
+                }
+            })
+            .catch(error => console.error('Erro ao carregar os dados:', error));
+    </script>
+</body>
+</html>
+
